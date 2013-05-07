@@ -1,0 +1,70 @@
+public class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        Set<Integer> set = new HashSet<Integer>();
+        Map<Integer,LinkedList<Integer>> pos = new HashMap<Integer, LinkedList<Integer>>();
+        for(int i = 0; i < numbers.length; i++)
+        {
+            if(set.contains(numbers[i]))
+            {
+                LinkedList<Integer> l = pos.get(numbers[i]);
+      		l.add(i);				
+                pos.put(numbers[i], l);
+            }
+            else
+            {
+                set.add(numbers[i]);
+                LinkedList<Integer> l = new LinkedList<Integer>();
+                l.add(i);
+                pos.put(numbers[i], l);
+            }
+            
+        }
+        int[] res = new int[2];
+        for(Integer i: set)
+        {
+            int n = target - i;
+            if(set.contains(n))
+            {
+                if(n == i && pos.get(n).size() == 2)
+                {
+                    res[0] = pos.get(n).pollFirst() + 1;
+                    res[1] = pos.get(n).pollFirst() + 1;
+                }
+                else
+                {
+                    int index1 = pos.get(i).peek();
+                    int index2 = pos.get(n).peek();
+                    res[0] = min(index1, index2) + 1;
+                    res[1] = max(index1, index2) + 1;
+                }
+            }
+        }
+        return res;
+    }
+    
+    private int max(int i, int j)
+    {
+        if(i > j)
+        {
+            return i;
+        }
+        else
+        {
+            return j;
+        }
+    }
+    
+    private int min(int i, int j)
+    {
+        if(i > j)
+        {
+            return j;
+        }
+        else
+        {
+            return i;
+        }
+    }
+}
