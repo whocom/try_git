@@ -1,0 +1,58 @@
+  public static ArrayList<ArrayList<String>> partition(String s) {
+    if(s == null || s.length() == 0)
+    {
+      return null;
+    }
+    int size = s.length();
+    Boolean[][] isPalindrome = new Boolean[size][size];
+    for(int diff = 0; diff < size; diff++)
+    {
+      for(int start = 0; start + diff < size; start++)
+      {
+        if(diff == 0)
+        {
+          isPalindrome[start][start] = true;
+        }
+        else if(diff == 1)
+        {
+          isPalindrome[start][start + diff] = (s.charAt(start) == s.charAt(start + diff));
+        }
+        else
+        {
+          isPalindrome[start][start + diff] =
+              isPalindrome[start + 1][start + diff - 1] && (s.charAt(start) == s.charAt(start + diff));
+        }
+      }
+    }
+
+    ArrayList<ArrayList<ArrayList<String>>> tailing = new ArrayList<ArrayList<ArrayList<String>>>();
+
+    for(int i = size - 1; i >= 0; i--)
+    {
+      ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
+      for(int end = i; end < size; end++)
+      {
+        if(isPalindrome[i][end])
+        {
+          String p = s.substring(i, end + 1);
+          if(end < size - 1)
+          {
+            for(ArrayList<String> t: tailing.get(end - i))
+            {
+              ArrayList<String> clone = (ArrayList<String>)t.clone();
+              clone.add(0, p);
+              temp.add(clone);
+            }
+          }
+          else
+          {
+            ArrayList<String> n = new ArrayList<String>();
+            n.add(p);
+            temp.add(n);
+          }
+        }
+      }
+      tailing.add(0, temp);
+    }
+    return tailing.get(0);
+  }
