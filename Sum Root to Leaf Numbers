@@ -1,0 +1,30 @@
+  public int sumNumbers(TreeNode root)
+  {
+      // Start typing your Java solution below
+      // DO NOT write main() function
+      if(root == null)
+      {
+        return 0;
+      }
+      return sum(root, 0);
+  }
+
+  private int sum(TreeNode node, Integer lastSum)
+  {
+    if(node == null)
+    {
+      return lastSum;
+    }
+
+    Integer currentSum = lastSum * 10 + node.val;
+    if(node.left == null)
+    {
+      return sum(node.right, currentSum);
+    }
+    else if(node.right == null)
+    {
+      return sum(node.left, currentSum);
+    }
+    //node.left != null && node.right != null
+    return sum(node.left, currentSum) + sum(node.right, currentSum);
+  }
