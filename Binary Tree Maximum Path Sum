@@ -1,1 +1,40 @@
-  
+public int maxPathSum(TreeNode root) 
+{
+    // Start typing your Java solution below
+    // DO NOT write main() function
+    if(root == null)
+    {
+        return 0;
+    }
+    Wrapper singleDirectionSum = new Wrapper(0), maxSum = new Wrapper(Integer.MIN_VALUE);
+    getMax(root, singleDirectionSum, maxSum);
+    return maxSum.value();       
+}
+
+private void getMax(TreeNode node, Wrapper singleDirectionSum, Wrapper maxSum)
+{
+    if(node == null)
+    {
+        singleDirectionSum._temp = 0;
+        return;
+    }
+    Wrapper leftSum = new Wrapper(0), rightSum = new Wrapper(0);
+
+    getMax(node.left, leftSum, maxSum);
+    getMax(node.right, rightSum, maxSum);
+    singleDirectionSum._temp = Math.max(node.val, node.val + Math.max(leftSum.value(), rightSum.value()));
+    maxSum._temp = Math.max(maxSum.value(), Math.max(singleDirectionSum.value(), node.val + leftSum.value() + rightSum.value()));
+}
+
+private class Wrapper
+{
+    public Integer _temp;
+    public Wrapper(Integer i)
+    {
+        _temp = i;
+    }
+    public int value()
+    {
+        return _temp.intValue();
+    }
+}
