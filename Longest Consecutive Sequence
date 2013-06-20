@@ -1,0 +1,53 @@
+  public int longestConsecutive(int[] num) {
+    if(num == null || num.length == 0 || num.length == 1)
+    {
+      return num == null? 0: num.length;
+    }
+    HashSet<Integer> adjacencySet = new HashSet<Integer>();
+    HashMap<Integer, Integer> left = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> right = new HashMap<Integer, Integer>();
+    int max = 0;
+    for(int i: num)
+    {
+      if(!left.containsKey(i))
+      {
+        left.put(i, i);
+        right.put(i, i);
+        if(adjacencySet.contains(i))
+        {
+          if(left.containsKey(i - 1))
+          {
+            left.put(i, left.get(i - 1));
+            right.put(left.get(i - 1), right.get(i));
+            if(!left.containsKey(i + 1))
+            {
+              adjacencySet.add(i + 1);
+            }
+          }
+          if(left.containsKey(i + 1))
+          {
+            left.put(right.get(i + 1), left.get(i));
+            right.put(left.get(i), right.get(i + 1));
+            if(!left.containsKey(i - 1))
+            {
+              adjacencySet.add(i - 1);
+            }
+          }
+          adjacencySet.remove(i);
+        }
+        else
+        {
+          adjacencySet.add(i - 1);
+          adjacencySet.add(i + 1);
+        }
+      }
+    }
+    for(int n: left.keySet())
+    {
+      if(max < right.get(n) - left.get(n) + 1)
+      {
+        max = right.get(n) - left.get(n) + 1;
+      }
+    }
+    return max;
+  }
