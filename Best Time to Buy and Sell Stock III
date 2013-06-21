@@ -1,0 +1,50 @@
+  public int maxProfit(int[] prices) {
+    // Start typing your Java solution below
+    // DO NOT write main() function
+    if(prices == null || prices.length == 0 || prices.length == 1)
+    {
+      return 0;
+    }
+    ArrayList<Integer> forward = new ArrayList<Integer>(prices.length - 1);
+    ArrayList<Integer> backward = new ArrayList<Integer>(prices.length - 1);
+    for(int i = 1; i < prices.length; i++)
+    {
+      forward.add(prices[i] - prices[i - 1]);
+      backward.add(0, prices[i] - prices[i - 1]);
+    }
+    if(forward.size() == 1)
+    {
+      return (forward.get(0) > 0)? forward.get(0): 0;
+    }
+    ArrayList<Integer> forwardProfit = new ArrayList<Integer>(prices.length - 1);
+    ArrayList<Integer> backwardProfit = new ArrayList<Integer>(prices.length - 1);
+
+    calculateMax(forward, forwardProfit);
+    calculateMax(backward, backwardProfit);
+    forwardProfit.add(0, 0);
+    backwardProfit.add(0, 0);
+    
+    int max = 0;
+    for(int i = 0; i < forwardProfit.size(); i++)
+    {
+      if(max < forwardProfit.get(i) + backwardProfit.get(backwardProfit.size() - 1 - i))
+      {
+        max = forwardProfit.get(i) + backwardProfit.get(backwardProfit.size() - 1 - i);
+      }
+    }
+    return max;
+  }
+
+  private void calculateMax(ArrayList<Integer> input, ArrayList<Integer> profit)
+  {
+    int currentMax = 0, max = 0;
+    for(int i = 0; i < input.size(); i++)
+    {
+      currentMax = (currentMax + input.get(i) > 0)? currentMax + input.get(i): 0;
+      if(currentMax > max)
+      {
+        max = currentMax;
+      }
+      profit.add(max);
+    }
+  }
