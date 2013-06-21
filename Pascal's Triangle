@@ -1,0 +1,29 @@
+    public ArrayList<ArrayList<Integer>> generate(int numRows) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        if(numRows <= 0)
+        {
+            return result;
+        }
+        
+        for(int i = 0; i < numRows; i++)
+        {
+            ArrayList<Integer> line = new ArrayList<Integer>();
+            line.add(1);
+            
+            for(int index = 1; index < i + 1; index++)
+            {
+                if(index == i)
+                {
+                    line.add(1);
+                }
+                else
+                {
+                    ArrayList<Integer> previousLine = result.get(result.size() - 1);
+                    line.add(previousLine.get(index - 1) + previousLine.get(index));
+                }
+            }        
+            result.add(line);
+        }
+        
+        return result; 
+    }
