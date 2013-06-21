@@ -1,0 +1,31 @@
+    public ArrayList<Integer> getRow(int rowIndex) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        
+        if(rowIndex < 0)
+        {
+            return result;
+        }
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        
+        for(int level = 0; level < rowIndex + 1; level++)
+        {
+            temp.add(0, 1);
+            for(int index = 1; index < level + 1; index++)
+            {
+                if(index == level)
+                {
+                    temp.add(1);
+                }
+                else
+                {
+                    temp.add(index, result.get(index - 1) + result.get(index));
+                }
+            }
+            result.clear();
+            result.addAll(temp);
+            temp.clear();
+        }
+        return result;
+    }
