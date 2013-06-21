@@ -1,0 +1,19 @@
+    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+        if(triangle == null)
+        {
+            return 0;
+        }
+        
+        ArrayList<Integer> result = new ArrayList<Integer>(triangle.get(triangle.size() - 1).size());
+        result.addAll(triangle.get(triangle.size() - 1));
+        
+        for(int height = triangle.size() - 2; height >= 0; height--)
+        {
+            for(int i = 0; i < height + 1; i++)
+            {
+                result.set(i, triangle.get(height).get(i) + Math.min(result.get(i), result.get(i + 1)));
+            }
+        }
+        
+        return result.get(0);
+    }
