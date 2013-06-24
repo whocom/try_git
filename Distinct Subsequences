@@ -1,0 +1,93 @@
+//recursive    
+    public int numDistinct(String S, String T) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(S == null || T == null)
+        {
+            return 0;
+        }
+        
+        count c = new count(0);
+        
+        findMatch(S, T, c);
+        return c.number;      
+    }
+    
+    private void findMatch(String s, String t, count c)
+    {
+        if(s.length() < t.length())
+        {
+            return;
+        }
+        if(t.length() == 0)
+        {
+          c.number++;
+          return;
+        }
+        if(s.length() == 0)
+        {
+          return;
+        }
+    
+        int index = 0;
+        while(true)
+        {
+          index = s.indexOf(t.charAt(0), index);
+          if(index == -1)
+          {
+            return;
+          }
+          findMatch(s.substring(index + 1), t.substring(1), c);
+          index++;
+        }
+    }
+    
+    private class count
+    {
+        public int number;
+        public count(int number)
+        {
+            this.number = number;
+        }
+    }
+    
+//DP
+      public int numDistinct(String S, String T) {
+        if(S == null || T == null)
+        {
+            return 0;
+        }
+        if(S.length() < T.length() || S.length() == 0 || T.length() == 0)
+        {
+            return 0;
+        }
+        
+        int[][] nums = new int[S.length()][T.length()];
+        for(int indexS = 0; indexS < S.length(); indexS++)
+        {
+            for(int indexT = 0; indexT < T.length(); indexT++)
+            {
+                if(indexS < indexT)
+                {
+                    nums[indexS][indexT] = 0;
+                }
+                else if(indexT == 0)
+                {
+                    if(indexS == 0)
+                    {
+                        nums[indexS][indexT] = (S.charAt(indexS) == T.charAt(indexT))? 1: 0;
+                    }
+                    else
+                    {
+                        nums[indexS][indexT] = nums[indexS - 1][indexT] + ((S.charAt(indexS) == T.charAt(indexT))? 1: 0);
+                    }
+                }
+                else
+                {
+                    nums[indexS][indexT] = nums[indexS - 1][indexT] + ((S.charAt(indexS) == T.charAt(indexT))? nums[indexS - 1][indexT - 1]: 0);        
+                }
+            }
+        }
+        
+        return nums[S.length() - 1][T.length() - 1];
+    }
