@@ -1,0 +1,23 @@
+    public void connect(TreeLinkNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(root == null)
+        {
+            return;
+        }
+        TreeLinkNode start = root;
+        while(start != null)
+        {
+            TreeLinkNode current = start;
+            start = start.left;
+            while(current != null)
+            {
+                if(current.left != null)
+                {
+                    current.left.next = current.right;
+                    current.right.next = current.next != null? current.next.left: null;
+                }
+                current = current.next;
+            }
+        }
+    }
