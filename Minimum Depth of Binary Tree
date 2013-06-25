@@ -1,0 +1,33 @@
+    public int minDepth(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(root == null)
+        {
+            return 0;
+        }
+        LinkedList<TreeNode> q = new LinkedList<TreeNode>();
+        LinkedList<Integer> level = new LinkedList<Integer>();
+        
+        q.add(root);
+        level.add(1);
+        while(q.size() != 0)
+        {
+            TreeNode current = q.pollFirst();
+            if(current == null)
+            {
+                int currentLevel = level.pollFirst().intValue();
+                continue;
+            }
+            if(current.left == null && current.right == null)
+            {
+                break;
+            }
+            int currentLevel = level.pollFirst().intValue();
+            q.add(current.left);
+            level.add(currentLevel + 1);
+            q.add(current.right);
+            level.add(currentLevel + 1);
+            
+        }
+        return level.pollFirst().intValue();
+    }
