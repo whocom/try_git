@@ -1,0 +1,28 @@
+    public TreeNode sortedArrayToBST(int[] num) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(num == null || num.length == 0)
+        {
+            return null;
+        }
+        if(num.length == 1)
+        {
+            return new TreeNode(num[0]);    
+        }
+        return buildTree(num, 0, num.length - 1);
+    }
+    
+    public TreeNode buildTree(int[] num, int start, int end)
+    {
+        int mid = start + (end - start) / 2;
+        TreeNode node = new TreeNode(num[mid]);
+        if(mid - 1 >= start)
+        {
+            node.left = buildTree(num, start, mid - 1);
+        }
+        if(mid + 1 <= end)
+        {
+            node.right = buildTree(num, mid + 1, end);
+        }
+        return node;
+    }
