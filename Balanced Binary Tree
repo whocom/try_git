@@ -1,0 +1,33 @@
+    public boolean isBalanced(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(root == null)
+        {
+            return false;
+        }
+        return getDepth(root) != -1;
+    }
+    
+    public int getDepth(TreeNode node)
+    {
+        if(node == null)
+        {
+            return 0;
+        }
+        
+        int left = getDepth(node.left);
+        if(left == -1)
+        {
+            return -1;
+        }
+        
+        int right = getDepth(node.right);
+        if(right == -1)
+        {
+            return -1;
+        }
+        
+        int depth = (left > right? left: right) + 1;
+        int diff = Math.abs(left - right);
+        return diff <= 1? depth: -1;
+    }
