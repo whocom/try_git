@@ -1,0 +1,24 @@
+    public boolean hasPathSum(TreeNode root, int sum) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(root == null)
+        {
+            return false;
+        }
+        return find(root, sum);
+    }
+    
+    private boolean find(TreeNode node, int remaining)
+    {
+        if(node == null)
+        {
+            return false;
+        }
+        if(node.left == null && node.right == null)
+        {
+            return remaining == node.val;
+        }
+        
+        remaining -= node.val;
+        return find(node.left, remaining) || find(node.right, remaining);
+    }
