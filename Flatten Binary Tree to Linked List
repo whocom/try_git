@@ -1,0 +1,30 @@
+    public void flatten(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(root == null)
+        {
+            return;
+        }
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        s.push(root);
+        
+        TreeNode current = null, previous = null;
+        while(!s.empty())
+        {
+            current = s.pop();
+            if(current.right != null)
+            {
+                s.push(current.right);
+            }
+            if(current.left != null)
+            {
+                s.push(current.left);
+            }
+            if(previous != null)
+            {
+                previous.left = null;
+                previous.right = current;
+            }
+            previous = current;
+        }
+    }
