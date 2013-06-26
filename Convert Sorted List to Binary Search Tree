@@ -1,0 +1,44 @@
+    public TreeNode sortedListToBST(ListNode head) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(head == null)
+        {
+            return null;
+        }
+        ListNode temp = head;
+        int length = 0;
+        while(temp != null)
+        {
+            temp = temp.next;
+            length += 1;
+        }
+        
+        wrapper h = new wrapper(head);
+        return buildTree(h, 0, length - 1);
+    }
+    
+    public TreeNode buildTree(wrapper head, int start, int end)
+    {
+        if(end < start)
+        {
+            return null;
+        }
+        int mid = start + (end - start) / 2;
+        TreeNode left = buildTree(head, start, mid - 1);
+        //head.node = head.node.next;
+        TreeNode n = new TreeNode(head.node.val);
+        n.left = left;
+        head.node = head.node.next;
+        TreeNode right = buildTree(head, mid + 1, end);
+        n.right = right;
+        return n;
+    }
+    
+    public class wrapper
+    {
+        public ListNode node;
+        public wrapper(ListNode node)
+        {
+            this.node = node;
+        }
+    }
