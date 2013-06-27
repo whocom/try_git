@@ -1,0 +1,38 @@
+    public ArrayList<ArrayList<Integer>> levelOrderBottom(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        if(root == null)
+        {
+            return res;
+        }
+        
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        int current = 1, next = 0;
+        while(queue.size() > 0)
+        {
+            ArrayList<Integer> level = new ArrayList<Integer>();
+            while(current > 0)
+            {
+                TreeNode top = queue.pollFirst();
+                level.add(top.val);
+                current--;
+                if(top.left != null)
+                {
+                    queue.add(top.left); 
+                    next++;
+                }
+                if(top.right != null)
+                {
+                    queue.add(top.right);
+                    next++;
+                }
+            }
+            res.add(0, level);
+            current = next;
+            next = 0;
+        }
+        
+        return res;
+    }
