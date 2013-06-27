@@ -1,0 +1,40 @@
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(inorder == null || postorder == null)
+        {
+            return null;
+        }
+        if(inorder.length != postorder.length || inorder.length == 0)
+        {
+            return null;
+        }
+        return buildTreeHelper(inorder, postorder, 0, inorder.length - 1, 0, postorder.length - 1);
+    }
+    
+    private TreeNode buildTreeHelper(int[] inorder, int[] postorder, int inorderStart, int inorderEnd, int postorderStart, int postorderEnd)
+    {
+        if(inorderStart > inorderEnd)
+        {
+            return null;
+        }
+        int root = postorder[postorderEnd];
+        int index = indexOf(inorder, inorderStart, inorderEnd, root);
+        int postorderSplit = postorderStart + index - inorderStart - 1;
+        TreeNode node = new TreeNode(root);
+        node.left = buildTreeHelper(inorder, postorder, inorderStart, index - 1, postorderStart, postorderSplit);
+        node.right = buildTreeHelper(inorder, postorder, index + 1, inorderEnd, postorderSplit + 1, postorderEnd - 1);
+        return node;
+    }
+    
+    private int indexOf(int[] arr, int start, int end, int target)
+    {
+        for(int i = start; i <= end; i++)
+        {
+            if(arr[i] == target)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
