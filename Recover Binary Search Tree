@@ -1,0 +1,76 @@
+Two elements of a binary search tree (BST) are swapped by mistake.
+
+Recover the tree without changing its structure.
+
+Note:
+A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+
+//o(n) space
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(root == null)
+        {
+            return;
+        }
+        ArrayList<TreeNode> list = new ArrayList<TreeNode>();
+        traverse(root, list);
+        int size = list.size();
+        if(size == 1)
+        {
+            return;
+        }
+        ArrayList<TreeNode> temp = new ArrayList();
+        
+        if(list.get(0).val > list.get(1).val)
+        {
+            temp.add(list.get(0));
+        }
+        else
+        {
+            for(int i = 1; i < size - 1; i++)
+            {
+                if(list.get(i).val > list.get(i + 1).val && list.get(i).val > list.get(i - 1).val)
+                {
+                    temp.add(list.get(i));
+                    break;
+                }
+            }
+        }
+        if(list.get(size - 1).val < list.get(size - 2).val)
+        {
+            temp.add(list.get(size - 1));
+        }
+        else
+        {
+            for(int i = size - 2; i > 0; i--)
+            {
+                if(list.get(i).val < list.get(i + 1).val && list.get(i).val < list.get(i - 1).val)
+                {
+                    temp.add(list.get(i));
+                    break;
+                }
+            }
+        }
+        if(temp.size() != 2)
+        {
+            return;
+        }
+        
+        int t = temp.get(0).val;
+        temp.get(0).val = temp.get(1).val;
+        temp.get(1).val = t;
+    }
+    
+    private void traverse(TreeNode node, List<TreeNode> list)
+    {
+        if(node == null)
+        {
+            return;
+        }
+        traverse(node.left, list);
+        list.add(node);
+        traverse(node.right, list);
+    }
+}
