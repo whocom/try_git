@@ -27,29 +27,22 @@ public class Solution {
         {
             temp.add(list.get(0));
         }
-        else
+        
+        for(int i = 1; i < size; i++)
         {
-            for(int i = 1; i < size - 1; i++)
+            if(list.get(i).val < list.get(i - 1).val)
             {
-                if(list.get(i).val > list.get(i + 1).val && list.get(i).val > list.get(i - 1).val)
+                if(temp.size() == 0)
                 {
-                    temp.add(list.get(i));
-                    break;
+                    temp.add(list.get(i - 1));
                 }
-            }
-        }
-        if(list.get(size - 1).val < list.get(size - 2).val)
-        {
-            temp.add(list.get(size - 1));
-        }
-        else
-        {
-            for(int i = size - 2; i > 0; i--)
-            {
-                if(list.get(i).val < list.get(i + 1).val && list.get(i).val < list.get(i - 1).val)
+                if(temp.size() == 1)
                 {
                     temp.add(list.get(i));
-                    break;
+                }
+                if(temp.size() == 2)
+                {
+                    temp.set(1, list.get(i));
                 }
             }
         }
