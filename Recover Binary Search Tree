@@ -74,3 +74,51 @@ public class Solution {
         traverse(node.right, list);
     }
 }
+
+//constant space
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        List<TreeNode> nextRight = new ArrayList<TreeNode>();
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        traverse(root, nextRight, list);
+        
+        int val = list.get(0).val;
+        list.get(0).val = list.get(1).val;
+        list.get(1).val = val;
+    }
+    
+    private void traverse(TreeNode node, List<TreeNode> nextRight, List<TreeNode> list)
+    {
+        if(node == null)
+        {
+            return;   
+        }
+        traverse(node.right, nextRight, list);
+        if(nextRight.size() == 0)
+        {
+            nextRight.add(node);
+        }
+        else
+        {
+            if(nextRight.get(0).val < node.val)
+            {
+                if(list.size() == 0)
+                {
+                    list.add(nextRight.get(0));
+                }
+                if(list.size() == 1)
+                {
+                    list.add(node);
+                }
+                if(list.size() == 2)
+                {
+                    list.set(1, node);
+                }
+            }
+            nextRight.set(0, node);
+        }
+        traverse(node.left, nextRight, list);    
+    }
+}
