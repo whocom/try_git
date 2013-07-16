@@ -64,3 +64,59 @@ public class Solution {
         return false;
     }
 }
+
+//DP
+  public boolean isInterleave(String s1, String s2, String s3) {
+    // Start typing your Java solution below
+    // DO NOT write main() function
+    if(s3 == null)
+    {
+      return s1 == null && s2 == null;
+    }
+    if(s1 == null || s2 == null)
+    {
+      return (s1 == null)? s3.equals(s2): s3.equals(s1);
+    }
+    if(s1.length() == 0 || s2.length() == 0)
+    {
+      return (s1.length() == 0)? s3.equals(s2): s3.equals(s1);
+    }
+    if(s3.length() != s1.length() + s2.length())
+    {
+      return false;
+    }
+
+    int length1 = s1.length(), length2 = s2.length();
+    boolean[][][] found = new boolean[length1 + 1][length2 + 1][length1 + length2 + 1];
+    for(int j = 1; j < length2 + 1; j++)
+    {
+      found[0][j][j] |= s2.substring(0, j).equals(s3.substring(0, j));
+    }
+    for(int i = 1; i < length1 + 1; i++)
+    {
+      found[i][0][i] |= s1.substring(0, i).equals(s3.substring(0, i));
+    }
+
+    for(int i = 1; i < length1 + 1; i++)
+    {
+      for(int j = 1; j < length2 + 1; j++)
+      {
+        if(s1.charAt(i - 1) != s3.charAt(i + j - 1) && s2.charAt(j - 1) != s3.charAt(i + j - 1))
+        {
+          found[i][j][i + j] = false;
+        }
+        else
+        {
+          if(s1.charAt(i - 1) == s3.charAt(i + j - 1))
+          {
+            found[i][j][i + j] |= found[i - 1][j][i + j - 1];
+          }
+          if(s2.charAt(j - 1) == s3.charAt(i + j - 1))
+          {
+            found[i][j][i + j] |= found[i][j - 1][i + j - 1];
+          }
+        }
+      }
+    }
+    return found[length1][length2][length1 + length2];
+  }
