@@ -1,0 +1,32 @@
+Given a binary tree, return the inorder traversal of its nodes' values.
+
+For example:
+Given binary tree {1,#,2,3},
+
+  public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if(root != null)
+        {
+            LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+            stack.add(root);
+            while(stack.size() > 0)
+            {
+                TreeNode node = stack.pollFirst();
+                if(node != null)
+                {
+                    stack.add(0, node.right);
+                    stack.add(0, node);
+                    stack.add(0, node.left);
+                }
+                else
+                {
+                    if(stack.size() > 0)
+                    {
+                        TreeNode next = stack.pollFirst();
+                        result.add(next.val);
+                    }
+                }
+            }
+        }
+        return result;
+    }
