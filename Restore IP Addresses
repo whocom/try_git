@@ -1,0 +1,45 @@
+Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+
+For example:
+Given "25525511135",
+
+return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
+  
+  public ArrayList<String> restoreIpAddresses(String s) {
+    // Start typing your Java solution below
+    // DO NOT write main() function
+    ArrayList<String> result = new ArrayList<String>();
+    if(s == null || s.length() < 4 || s.length() > 16)
+    {
+      return result;
+    }
+    getValidIP(s, "", 0, result);
+    return result;
+  }
+
+  private static void getValidIP(String s, String output, int count, ArrayList<String> result)
+  {
+    if(count == 4 && (s == null || s.isEmpty()))
+    {
+      result.add(output.substring(0, output.length() - 1));
+      return;
+    }
+    if(s == null || s.isEmpty())
+    {
+      return;
+    }
+
+    int split = (s.length() > 3)? 3: s.length();
+    String temp = s.substring(0, split);
+    int validPos = (Integer.valueOf(temp) > 255)? (split - 1): split;
+    for(int i = 0; i < validPos; i++)
+    {
+      String partialIP = s.substring(0, i + 1);
+      if(partialIP.length() > 1 && partialIP.startsWith("0"))
+      {
+        return;
+      }
+      String remaining = s.substring(i + 1);
+      getValidIP(remaining, output + partialIP + ".", count + 1, result);
+    }
+  }
