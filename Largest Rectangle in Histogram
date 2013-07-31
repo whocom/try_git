@@ -1,0 +1,46 @@
+Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+
+public int largestRectangleArea(int[] height) {
+        if(height == null || height.length == 0){
+            return 0;
+        }
+        ArrayList<Integer> left = new ArrayList<Integer>(height.length);
+        ArrayList<Integer> right = new ArrayList<Integer>(height.length);
+        LinkedList<Integer> stack = new LinkedList<Integer>();
+        for(int i = 0; i < height.length; i++){
+            if(i == 0 || height[i - 1] < height[i]){
+                left.add(i);
+            }
+            else{
+                while(stack.size() > 0 && height[stack.peekLast()] >= height[i]){
+                    stack.pollLast();
+                }
+                int edge = (stack.size() == 0)? 0: (stack.peekLast() + 1);
+                left.add(edge);
+            }
+            stack.add(i);
+        }
+        stack.clear();
+        for(int i = height.length - 1; i >= 0; i--){
+            if(i == height.length - 1|| height[i] > height[i + 1]){
+                right.add(0, i);
+            }
+            else{
+                while(stack.size() > 0 && height[stack.peekLast()] >= height[i]){
+                    stack.pollLast();
+                }
+                int edge = (stack.size() == 0)? (height.length - 1): (stack.peekLast() - 1);
+
+                right.add(0, edge);
+            }
+            stack.add(i);
+        }
+        int max = 0;
+        for(int i = 0; i < height.length; i++){
+            int temp = height[i] * (right.get(i) - left.get(i) + 1);
+            if(temp > max){
+                max = temp;
+            }
+        }
+        return max;
+    }
