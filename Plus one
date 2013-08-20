@@ -1,0 +1,34 @@
+Given a number represented as an array of digits, plus one to the number.
+
+    public int[] plusOne(int[] digits) {
+        if(digits == null){
+            return null;
+        }
+        int carryover = 0;
+        int[] result = new int[digits.length + 1];
+        int index = digits.length - 1;
+        while(carryover != 0 || index >= 0){
+            if(index >= 0){
+                int temp = digits[index] + carryover;
+                if(index == digits.length - 1){
+                    temp++;
+                }
+                result[index + 1] = temp % 10;
+                carryover = temp / 10;
+            }
+            else{   //carryOver == 1 && index == -1
+                result[index + 1] = 1;
+                carryover = 0;
+            }
+            index--;
+        }
+
+        if(result[0] == 0){
+            int[] newResult = new int[digits.length];
+            for(int i = 0; i < digits.length; i++){
+                newResult[i] = result[i + 1];
+            }
+            result = newResult;
+        }
+       return result;
+    }
