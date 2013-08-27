@@ -1,0 +1,36 @@
+Rotate ListMar 28 '125071 / 17192
+Given a list, rotate the list to the right by k places, where k is non-negative.
+
+For example:
+Given 1->2->3->4->5->NULL and k = 2,
+return 4->5->1->2->3->NULL.
+
+    public ListNode rotateRight(ListNode head, int n) {
+        if(head == null || head.next == null || n <= 0){
+            return head;
+        }
+        ListNode current = head, previous = null;
+        int count = 0;
+        while(current != null){
+            current = current.next;
+            count++;
+        }
+        n = count - n % count;
+        if(n == count){
+            return head;
+        }
+        count = 0;
+        current = head;
+        while(count < n){
+            previous = current;
+            current = current.next;
+            count++;
+        } 
+        ListNode newHead = current;
+        while(current.next != null){
+            current = current.next;
+        }
+        current.next = head;
+        previous.next = null;
+        return newHead;
+    }
