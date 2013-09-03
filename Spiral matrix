@@ -1,0 +1,70 @@
+Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+
+For example,
+Given the following matrix:
+
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+You should return [1,2,3,6,9,8,7,4,5].
+
+    public ArrayList<Integer> spiralOrder(int[][] matrix) {
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0){
+            return new ArrayList<Integer>();
+        }
+        int left = 0, right = matrix[0].length - 1, up = 0, down = matrix.length - 1;
+        ArrayList<Integer> c = new ArrayList<Integer>();
+        while(c.size() != matrix[0].length * matrix.length){
+            if(up <= down){
+                scanRow(matrix, up, left, right, true, c);
+                up++;
+            }
+            if(left <= right){
+                scanCol(matrix, right, up, down, true, c);
+                right--;
+            }
+            if(up <= down)
+            {
+                scanRow(matrix, down, left, right, false, c);
+                down--;
+            }
+            if(left <= right){
+                scanCol(matrix, left, up, down, false, c);
+                left++;
+            }
+        }
+        return c;
+    }
+    public void scanRow(int[][] matrix, int row, int left, int right, boolean leftToRight, ArrayList<Integer> c){
+        if(left > right){
+            return;
+        }
+        if(leftToRight){
+            for(int i =left; i <= right; i++){
+                c.add(matrix[row][i]);
+            } 
+        }
+        else{
+            for(int i = right; i >= left; i--){
+                c.add(matrix[row][i]);
+            }
+        }
+    }
+    
+    public void scanCol(int[][] matrix, int col, int up, int down, boolean upToDown, ArrayList<Integer> c){
+        if(up > down){
+            return;
+        }
+        if(upToDown){
+            for(int i = up; i <=down; i++){
+                c.add(matrix[i][col]);    
+            }
+        }
+        else{
+            for(int i = down; i >=up; i--){
+                c.add(matrix[i][col]);     
+            }
+        }
+    }
